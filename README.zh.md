@@ -17,10 +17,12 @@
 
 ## 安装
 
+已发布到 npm：[`dsh-audio-visualizer`](https://www.npmjs.com/package/dsh-audio-visualizer)（也可从 Git 安装：`git+https://github.com/caesarjue/dsh-audio-visualizer`）。
+
 ### dsh web
 
 ```sh
-dsh plugin --profile web add git+https://github.com/caesarjue/dsh-audio-visualizer
+dsh plugin --profile web add dsh-audio-visualizer
 ```
 
 然后点击芯片，在弹窗里选「**整个屏幕**」并勾选「**分享系统音频**」。浏览器安全模型要求每次手动确认；仅支持 macOS Chrome/Chromium 141+。
@@ -28,7 +30,7 @@ dsh plugin --profile web add git+https://github.com/caesarjue/dsh-audio-visualiz
 ### DSH Desktop
 
 ```sh
-dsh plugin --profile desktop add git+https://github.com/caesarjue/dsh-audio-visualizer
+dsh plugin --profile desktop add dsh-audio-visualizer
 ```
 
 **另需一次性补丁**——DSH Desktop 的 Electron 主进程需要以系统音频回环来应答 `getDisplayMedia`。补丁脚本随仓库提供（`patch/`）：

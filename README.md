@@ -17,10 +17,12 @@ On **DSH Desktop** the Electron main process answers `getDisplayMedia` with `aud
 
 ## Install
 
+Available on npm: [`dsh-audio-visualizer`](https://www.npmjs.com/package/dsh-audio-visualizer) (or from Git: `git+https://github.com/caesarjue/dsh-audio-visualizer`).
+
 ### dsh web
 
 ```sh
-dsh plugin --profile web add git+https://github.com/caesarjue/dsh-audio-visualizer
+dsh plugin --profile web add dsh-audio-visualizer
 ```
 
 Then click the chip and pick **Entire screen** + check **Share system audio** in the picker. The browser security model requires this manual opt-in every time; macOS Chrome/Chromium 141+ only.
@@ -28,7 +30,7 @@ Then click the chip and pick **Entire screen** + check **Share system audio** in
 ### DSH Desktop
 
 ```sh
-dsh plugin --profile desktop add git+https://github.com/caesarjue/dsh-audio-visualizer
+dsh plugin --profile desktop add dsh-audio-visualizer
 ```
 
 **Plus a one-time local patch** — the DSH Desktop Electron main process must answer `getDisplayMedia` with system-audio loopback. The patch script is bundled in `patch/`:
