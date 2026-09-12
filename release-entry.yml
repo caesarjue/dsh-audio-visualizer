@@ -1,0 +1,6 @@
+url: https://github.com/caesarjue/dsh-audio-visualizer
+name: caesarjue/dsh-audio-visualizer
+category: ui
+description:
+  en: 'System-audio driven UI visualizer: a draggable 48-band spectrum chip plus a frame-wide bass glow; on DSH Desktop it additionally requires a one-time local patch (installer included).'
+  zh: '系统音频驱动的界面律动：可拖动的 48 段频谱条 + 全窗低音光晕；DSH Desktop 上另需一次性补丁（附安装脚本）。'

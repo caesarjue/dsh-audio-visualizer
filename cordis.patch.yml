@@ -1,0 +1,13 @@
+# dsh-audio-visualizer bundle patch：向 web 组合挂载 dsh-audio-visualizer。
+#
+# host 半（exports "."）只是一个身份占位；全部行为在浏览器半
+# （exports "./client"，经 __ModuleLoader__ 加载）。
+#
+# 浏览器半：
+#   - 悬浮 chip：48 段彩虹频谱条（可拖动、位置记忆）
+#   - 点击 chip 开关；音频来自 getDisplayMedia 系统音频回环（用户在弹窗
+#     里选「整个屏幕」+ 勾选「分享系统音频」）
+#   - 低音驱动的全窗边缘光晕；FFT 全在内存，不落盘、不上传
+- insert:
+    - id: audio-visualizer
+      name: dsh-audio-visualizer

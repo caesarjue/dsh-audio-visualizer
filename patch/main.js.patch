@@ -1,0 +1,61 @@
+--- a/lib/main.js
++++ b/lib/main.js
+@@ -28,7 +28,7 @@
+ import { parseDocument } from "yaml";
+ import { chmod, lstat, mkdir, open, writeFile } from "node:fs/promises";
+ import { withFileLock, writeFileAtomic } from "@deepseek-ai/dsh-atomic-write";
+-import { BrowserWindow, app, crashReporter, safeStorage, screen, shell } from "electron";
++import { BrowserWindow, app, crashReporter, desktopCapturer, safeStorage, screen, session, shell } from "electron";
+ import { execFile, spawn } from "node:child_process";
+ import { provideCmdline } from "@deepseek-ai/dsh-cmdline";
+ import { DSH_LAUNCH_ENVIRONMENT_KEY } from "@deepseek-ai/dsh-launch-environment";
+@@ -39,6 +39,49 @@
+ 	return platform === "win32" && argv.includes("--dsh-installer-quit");
+ }
+ //#endregion
++//#region dsh-audio-visualizer patch (local, 2026-09-12)
++// Grants every renderer session the system-output loopback audio for
++// getDisplayMedia() (Core Audio taps / "Catap" pick-up), so the audio-visualizer
++// plugin can run its AnalyserNode on the system mix. Audio stays in-process.
++// NOTE: the main UI lives in a dedicated partition ("dsh-desktop-renderer"),
++// so the handler must be installed per-webContents session, not just default.
++if (process.platform === "darwin") {
++	app.commandLine.appendSwitch("enable-features", "MacCatapLoopbackAudioForScreenShare");
++	const installLoopback = (targetSession) => {
++		try {
++			targetSession.setDisplayMediaRequestHandler((_request, callback) => {
++				// All failure paths must be swallowed: this app runs a fail-loud
++				// handler that turns unhandled rejections into a fatal exit.
++				const safeCallback = (payload) => {
++					try {
++						callback(payload);
++					} catch {}
++				};
++				desktopCapturer.getSources({ types: ["screen"] }).then(
++					(sources) => {
++						if (sources && sources.length > 0) {
++							safeCallback({ video: sources[0], audio: "loopback" });
++						} else {
++							safeCallback({ audio: "loopback" });
++						}
++					},
++					() => {
++						safeCallback({ audio: "loopback" });
++					}
++				);
++			}, { useSystemPicker: false });
++		} catch {}
++	};
++	void app.whenReady().then(() => {
++		installLoopback(session.defaultSession);
++	});
++	app.on("web-contents-created", (_event, contents) => {
++		try {
++			installLoopback(contents.session);
++		} catch {}
++	});
++}
++//#endregion
+ //#region src/crash-evidence.ts
+ const PRIVATE_DIRECTORY_MODE$1 = 448;
+ const PRIVATE_FILE_MODE$1 = 384;
