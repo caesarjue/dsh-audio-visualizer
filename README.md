@@ -1,5 +1,7 @@
 # dsh-audio-visualizer
 
+**English** | [简体中文](README.zh.md)
+
 System-audio driven UI visualizer for DeepSeek Harness (**dsh web** and **DSH Desktop**).
 
 - **Spectrum chip** — a draggable 118×24 floating chip drawing a 48-band rainbow spectrum that rides the system audio output in real time.

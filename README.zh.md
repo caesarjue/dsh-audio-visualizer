@@ -1,5 +1,7 @@
 # dsh-audio-visualizer（音频律动）
 
+[English](README.md) | **简体中文**
+
 给 DeepSeek Harness 的**系统音频驱动界面律动**插件（支持 **dsh web** 与 **DSH Desktop**）。
 
 - **频谱芯片**：一个可拖动的 118×24 悬浮小条，绘制 48 段彩虹频谱，实时跟随系统声音输出。
